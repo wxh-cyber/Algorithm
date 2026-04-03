@@ -1,9 +1,9 @@
 /*
+     高精度加法模板
      题目链接：https://www.luogu.com.cn/problem/P1601
  */
 #include <iostream>
 #include <string>
-#define int long long
 using namespace std;
 
 string add(string a, string b)
