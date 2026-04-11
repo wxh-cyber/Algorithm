@@ -48,6 +48,7 @@ namespace mikiwang
 
         // 复数加法：(a+bi) + (c+di) = (a+c) + (b+d)i
         complex operator+(const complex &c) const { return complex(r + c.r, v + c.v); }
+        // 调用前面已经定义好的加法
         complex &operator+=(const complex &c) { return *this = *this + c; }
 
         // 复数减法：(a+bi) - (c+di) = (a-c) + (b-d)i
@@ -64,8 +65,8 @@ namespace mikiwang
         //         本题系数全为实数，FFT 单位根模为 1，计算结果恰好不受影响。
         complex operator/(const complex &c) const
         {
-            long double d = c.r * c.r - c.v * c.r; // ← 应为 c.r*c.r + c.v*c.v
-            return complex((r * c.r + v * c.v) / d, (r * c.v + v * c.r) / d);
+            long double d = c.r * c.r + c.v * c.v; // ← 应为 c.r*c.r + c.v*c.v
+            return complex((r * c.r + v * c.v) / d, (r * c.v - v * c.r) / d);
         }
         // ⚠️ Bug：返回值类型应为 complex&（与其他复合赋值运算符一致），此处返回 complex 值。
         complex operator/=(const complex &c) { return *this = *this / c; }
@@ -92,30 +93,30 @@ namespace mikiwang
         static void fft(complex *, int, int);
 
     public:
-        polymerization(int = 0);              // 构造度为 len_ 的零多项式
+        polymerization(int = 0);                // 构造度为 len_ 的零多项式
         polymerization(const polymerization &); // 拷贝构造
         ~polymerization();
-        int length() const;                   // 返回最高次数 len
+        int length() const; // 返回最高次数 len
 
         // 隐式转换为 complex*，使 poly[i] 可直接访问 data[i]
         operator complex *();
         operator const complex *() const;
 
         polymerization &operator=(const polymerization &);
-        polymerization &resize(int);          // 调整最高次数（扩容时重新分配内存）
+        polymerization &resize(int); // 调整最高次数（扩容时重新分配内存）
 
-        polymerization operator-() const;                        // 各系数取反
-        polymerization operator+(const polymerization &) const;  // 多项式加法
-        polymerization operator-(const polymerization &) const;  // 多项式减法
-        polymerization operator*(long double) const;             // 各系数乘以标量
-        polymerization operator*(complex) const;                 // 各系数乘以复数
-        polymerization operator/(long double) const;             // 各系数除以标量
-        polymerization operator/(complex) const;                 // 各系数除以复数
-        polymerization operator*(const polymerization &) const;  // 多项式乘法（FFT）
-        polymerization inverse() const;                          // 多项式逆元（Newton 迭代）
-        polymerization &reverse();                               // 翻转系数
-        polymerization operator/(const polymerization &) const;  // 多项式除法
-        polymerization operator%(const polymerization &) const;  // 多项式取模
+        polymerization operator-() const;                       // 各系数取反
+        polymerization operator+(const polymerization &) const; // 多项式加法
+        polymerization operator-(const polymerization &) const; // 多项式减法
+        polymerization operator*(long double) const;            // 各系数乘以标量
+        polymerization operator*(complex) const;                // 各系数乘以复数
+        polymerization operator/(long double) const;            // 各系数除以标量
+        polymerization operator/(complex) const;                // 各系数除以复数
+        polymerization operator*(const polymerization &) const; // 多项式乘法（FFT）
+        polymerization inverse() const;                         // 多项式逆元（Newton 迭代）
+        polymerization &reverse();                              // 翻转系数
+        polymerization operator/(const polymerization &) const; // 多项式除法
+        polymerization operator%(const polymerization &) const; // 多项式取模
     };
 }
 
@@ -131,10 +132,10 @@ polymerization pow(polymerization a, long long n, const polymerization &p)
     ret[0] = 1;         // ret = 1（常数多项式）
     while (n)
     {
-        if (n & 1)           // 若当前二进制位为 1
+        if (n & 1) // 若当前二进制位为 1
             ret = ret * a % p;
-        a = a * a % p;       // a 平方
-        n >>= 1;             // 处理下一个二进制位
+        a = a * a % p; // a 平方
+        n >>= 1;       // 处理下一个二进制位
     }
     return ret;
 }
@@ -271,9 +272,9 @@ namespace mikiwang
     {
         polymerization ret = max(len, a.len); // 创建足够大的零多项式
         for (int i = 0; i <= len; i++)
-            ret[i] += data[i]; // 加入 *this 的系数
+            ret[i] += data[i];         // 加入 *this 的系数
         for (int i = 0; i <= len; i++) // ← 应为 i <= a.len
-            ret[i] += a[i];   // 加入 a 的系数
+            ret[i] += a[i];            // 加入 a 的系数
         return ret;
     }
 
@@ -389,11 +390,11 @@ namespace mikiwang
         for (int i = 0; i <= a_.len; i++)
             b[i] = a_[i];
 
-        fft(a, l, 1);  // 正变换：时域→点值
+        fft(a, l, 1); // 正变换：时域→点值
         fft(b, l, 1);
         for (int i = 0; i < l; i++)
             a[i] *= b[i]; // 点值对应相乘
-        fft(a, l, -1); // 逆变换：点值→时域
+        fft(a, l, -1);    // 逆变换：点值→时域
 
         // 逆 FFT 结果需除以变换长度 l 才能还原真实系数
         for (int i = 0; i <= ret.len; i++)
@@ -412,11 +413,11 @@ namespace mikiwang
     {
         polymerization g(1), g1;
         g[0] = 1;
-        g[0] /= data[0];                    // g[0] = 1 / f[0]
-        g[1] = -g[0] * g[0] * data[1];      // g[1] = -g[0]² · f[1]
-        while (g.len <= len)                 // 迭代直到精度覆盖原多项式次数
+        g[0] /= data[0];               // g[0] = 1 / f[0]
+        g[1] = -g[0] * g[0] * data[1]; // g[1] = -g[0]² · f[1]
+        while (g.len <= len)           // 迭代直到精度覆盖原多项式次数
         {
-            g1 = g * g;                      // g²
+            g1 = g * g;                                  // g²
             g = g * 2 - (*this * g1).resize(g.len << 1); // g = 2g - f·g²，截断到 2·len
         }
         return g.resize(len); // 截断到所需精度
@@ -439,9 +440,9 @@ namespace mikiwang
         if (len < a.len) // 被除式次数更低，商为 0（此处直接返回 *this 不完全正确，应返回 0）
             return *this;
         polymerization k, ra(*this), rb(a);
-        ra.reverse().resize(len - a.len); // 翻转被除式并截断到商的次数
-        rb.reverse().resize(len - a.len); // 翻转除式并截断到商的次数
-        k = ra * rb.inverse();            // 翻转后的商 = 翻转 f × 翻转 a 的逆元
+        ra.reverse().resize(len - a.len);       // 翻转被除式并截断到商的次数
+        rb.reverse().resize(len - a.len);       // 翻转除式并截断到商的次数
+        k = ra * rb.inverse();                  // 翻转后的商 = 翻转 f × 翻转 a 的逆元
         return k.resize(len - a.len).reverse(); // 截断并翻转回得到真正的商
     }
 
