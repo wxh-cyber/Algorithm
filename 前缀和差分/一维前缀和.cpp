@@ -1,6 +1,7 @@
-/*
-    一维前缀和
-    相关链接：https://oi-wiki.org/basic/prefix-sum/#一维前缀和
+/**
+ * @file 一维前缀和.cpp
+ * @brief 一维前缀和模板
+ * 相关链接：https://oi-wiki.org/basic/prefix-sum/#一维前缀和
  */
 #include <iostream>
 #include <vector>
