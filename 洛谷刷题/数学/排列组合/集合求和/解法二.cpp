@@ -2,6 +2,7 @@
  *    @link https://www.luogu.com.cn/problem/P2415
  */
  #include<iostream>
+ #include<cmath>
  using namespace std;
 
  int x,t;
