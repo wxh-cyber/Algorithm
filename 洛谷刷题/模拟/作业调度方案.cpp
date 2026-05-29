@@ -39,25 +39,33 @@ int main() {
     for(int i=1;i<=m*n;i++){
         int now=list[i];                          //当前工件编号
         step[now]++;                              //当前工件加工到了第几步
-        int id=a[now][step[now]].id;
-        int cost=a[now][step[now]].cost;
+        int id=a[now][step[now]].id;              //加工当前工件的机器编号
+        int cost=a[now][step[now]].cost;          //当前工件在当前机器上加工花费的时间
 
-        int s=0;
+        int s=0;                                  //s记录连续空闲的时间段长度
         for(int j=las_time[now]+1;;j++) {
             if(mac[id][j]==0) {
-                s++;
+                s++;                              //如果机器id在j时刻空闲，则时间加1
             }else {
-                s=0;
+                s=0;                              //一旦遇到占用，连续空闲长度清零，重新找
             }
 
+            //找到了足够长的连续空闲时间
             if(s==cost) {
+                //将这段时间在机器上标记为占用
+                /**
+                 * Q:为什么从j-cost+1开始标记？
+                 * A：事实上，j代表的是这段空闲时间末尾的最后一个时间点，因此在计算的时候，j下标是包含在内的，需要对起始下标减一
+                 */
                 for(int k=j-cost+1;k<=j;k++){
                     mac[id][k]=1;
                 }
 
+                //更新全局最晚结束时间
                 if(j>ans) ans=j;
+                //更新这个工件的最后加工完成时间
                 las_time[now]=j;
-                break;
+                break;                           //处理完当前加工任务，跳出循环
             }
         }
     }
