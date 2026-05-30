@@ -8,6 +8,8 @@
  #include <string>
  #include <map>
  #define f(i,a,b) for(int i=a;i<=b;i++)
+ //注意：由于后面采用了inline ll rr()，所以typedef需要在该函数之前定义
+ typedef long long ll;
   /**
   *  @brief rr
   *  @return 输入的数字
@@ -30,7 +32,6 @@
     return x*f;
 }
  #define d rr()
- typedef long long ll;
  using namespace std;
 
  ll n;                                        //n存储帮内人数
@@ -92,8 +93,8 @@
         members[i].num=i;
         string s;
         cin>>s;
-        members[i].pos=bottom[s];
-        scanf("%lld %lld",&members[i].contri,&members[i].level);
+        members[i].pos=top[s];
+        scanf("%lld %d",&members[i].contri,&members[i].level);
     }
 
     ll m=1;
