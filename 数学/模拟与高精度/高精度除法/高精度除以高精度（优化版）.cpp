@@ -3,6 +3,17 @@
 #include <algorithm>
 using namespace std;
 
+/**
+ *  @note 算法性能分析：
+ *    在C++中，vector的insert在头部插入元素的时间复杂度是O（N），这将导致时间复杂度为O（N^2）
+ */
+
+/**
+ *  @brief 比较两个高精度数的大小
+ *  @param A 第一个高精度数（低位在前，高位在后）
+ *  @param B 第二个高精度数（低位在前，高位在后）
+ *  @returns 如果A>=B返回true，否则返回false
+ */
 bool cmp(const vector<int>& A,const vector<int>& B){
     if(A.size()!=B.size()) return A.size()>B.size();
     for(int i=A.size()-1;i>=0;i--){
@@ -11,6 +22,13 @@ bool cmp(const vector<int>& A,const vector<int>& B){
     return true;
 }
 
+/**
+ *  @brief 高精度数减法 A-B=C
+ *  @param A 被减数（低位在前，高位在后）
+ *  @param B 减数（低位在前，高位在后）
+ *  @returns C （低位在前，高位在后）
+ *  @note A、B、C、R都是vector<int>类型
+ */
 vector<int> sub(const vector<int>& A,const vector<int>& B){
     vector<int> C;
     int t=0;
@@ -27,6 +45,14 @@ vector<int> sub(const vector<int>& A,const vector<int>& B){
     return C;
 }
 
+/**
+ *  @brief 高精度数除法 A/B=C...R
+ *  @param A 被除数（低位在前，高位在后）
+ *  @param B 除数（低位在前，高位在后）
+ *  @param R 余数（通过引用返回）
+ *  @returns C （低位在前，高位在后）
+ *  @note A、B、C、R都是vector<int>类型
+ */
 vector<int> div_high(const vector<int>& A,const vector<int>& B,vector<int>& R){
     vector<int> C(A.size(),0);                     //商的位数最多和A的位数一样，先初始化全0
     R=A;                                           //初始余数为A
