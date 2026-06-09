@@ -10,24 +10,30 @@ struct BigNum {
     int len;
     int d[MAXN+10];                         //规定：d[1]是最低位（个位），d[len]是最高位
 
-    BigNum():len(1) {
+    BigNum():len(1) {                       //初始化时，如果不传参，则默认长度为1，值为0
         memset(d,0,sizeof(d));
     }
 
     BigNum(int num):len(0) {
         memset(d,0,sizeof(d));
-        if(num==0){
+        if(num==0){                         //如果传入参数为0，则长度设定为1，值为0
             len=1;
             return;
         }
 
-        while(num>0){
-            d[++len]=num%BASE;                         //个位放在d[1]
+        while(num>0){                       //如果传入参数非0，则对其进行加工处理
+            d[++len]=num%BASE;              //个位放在d[1]
             num/=BASE;
         }
     }
 };
 
+/**
+ * @brief 重载+运算符，实现两个BigNum类型的相加
+ * @param a 加数
+ * @param b 加数
+ * @return 相加的结果
+ */
 BigNum operator + (const BigNum& a,const BigNum& b){
     BigNum c;
     int carry=0;
@@ -38,7 +44,7 @@ BigNum operator + (const BigNum& a,const BigNum& b){
         int sum=a.d[i]+b.d[i]+carry;                  //短的数字d[i]自然是0，完美对齐
         c.d[i]=sum%BASE;
         carry=sum/BASE;
-        i++;1
+        i++;
     }
 
     c.len=i-1;                                        //循环结束时，i多加了1
@@ -48,6 +54,7 @@ BigNum operator + (const BigNum& a,const BigNum& b){
 /**
  * @brief 输出BigNum类型的数字
  * @param a 待输出的数字
+ * @return void
  */
 void print(const BigNum& a){
     //最高位（大索引）直接输出，不需要补前导0
@@ -62,10 +69,10 @@ void print(const BigNum& a){
 }
 
 int main(){
-    int n;
+    int n;                                              //n表示最终数列的下标
     scanf("%d",&n);
 
-    if(n==0) {
+    if(n==0) {                                          //对0,1,2的特殊情况进行特判
         puts("0");
         return 0;
     }
@@ -74,14 +81,14 @@ int main(){
         return 0;
     }
 
-    BigNum a(1),b(2),c;
+    BigNum a(1),b(2),c;                                 //规定F（1）=1，F（2）=2
     
     for(int i=3;i<=n;i++){
         c=a+b;
         a=b;
         b=c;
     }
-
-    print(b);
+    
+    print(b);                                           //输出结果
     return 0;
 }
