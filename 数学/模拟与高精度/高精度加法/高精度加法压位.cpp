@@ -5,6 +5,10 @@ using namespace std;
 const int BASE=100000000;                   //压8位，基数为1e8
 const int WIDTH=8;
 const int MAXN=250;                         //数组长度，预留足够空间
+/**
+ *  思考：为什么高精度压位加法最多只能压到1e8？
+ *  
+ */
 
 struct BigNum {
     int len;
