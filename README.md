@@ -4,7 +4,9 @@
 
 持续更新中...
 
-![C++](https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=blue)
+![C++](https://img.shields.io/badge/C++-red?style=for-the-badge&logo=cplusplus&logoColor=blue)
+![C](https://img.shields.io/badge/C-purple?style=for-the-badge&logo=c&logoColor=skyblue)
+![Claude](https://img.shields.io/badge/Claude-f0eee6?style=for-the-badge&logo=Claude&logoColor=d97757)
 ![](./assets/image.png)
 
 ## 目录
