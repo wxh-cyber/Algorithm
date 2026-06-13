@@ -6,6 +6,9 @@
 
 ![C++](https://img.shields.io/badge/C++-red?style=for-the-badge&logo=cplusplus&logoColor=blue)
 ![C](https://img.shields.io/badge/C-purple?style=for-the-badge&logo=c&logoColor=skyblue)
+![Luogu](https://img.shields.io/badge/Luogu-white?style=for-the-badge&logo=Luogu&logoColor=5b9bd5)
+![CodeForces](https://img.shields.io/badge/CodeForces-yellow?style=for-the-badge&logo=Codeforces&logoColor=red)
+![LeetCode](https://img.shields.io/badge/LeetCode-black?style=for-the-badge&logo=LeetCode&logoColor=ffa116)
 ![Claude](https://img.shields.io/badge/Claude-f0eee6?style=for-the-badge&logo=Claude&logoColor=d97757)
 ![](./assets/image.png)
 
@@ -106,9 +109,9 @@
 
 ## 外部链接
 
-- [洛谷](https://www.luogu.com.cn)
-- [CodeForces](https://codeforces.com)
-- [LeetCode](https://leetcode.cn)
+- ![Luogu](https://img.shields.io/badge/Luogu-white?style=for-the-badge&logo=Luogu&logoColor=5b9bd5)[洛谷](https://www.luogu.com.cn)
+- ![CodeForces](https://img.shields.io/badge/CodeForces-yellow?style=for-the-badge&logo=Codeforces&logoColor=red)[CodeForces](https://codeforces.com)
+- ![LeetCode](https://img.shields.io/badge/LeetCode-black?style=for-the-badge&logo=LeetCode&logoColor=ffa116)[LeetCode](https://leetcode.cn)
 - [牛客](https://ac.nowcoder.com)
 - [OI Wiki](https://oi-wiki.org/)
 - [北大OJ](poj.org)
