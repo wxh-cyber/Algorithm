@@ -6,6 +6,8 @@
 
 持续更新中...
 
+中文|![English](./README_EN.md)
+
 ![C++](https://img.shields.io/badge/C++-red?style=for-the-badge&logo=cplusplus&logoColor=blue)
 ![C](https://img.shields.io/badge/C-purple?style=for-the-badge&logo=c&logoColor=skyblue)
 ![Luogu](https://img.shields.io/badge/Luogu-white?style=for-the-badge&logo=Luogu&logoColor=5b9bd5)
@@ -104,7 +106,7 @@
     - [筛法](./洛谷刷题/数学/筛法/)
       - [质数筛（P5736）](./洛谷刷题/数学/筛法/质数筛/)
       - [哥德巴赫猜想（P1304）](./洛谷刷题/数学/筛法/哥德巴赫猜想/)
-    - [排列组合](./洛谷刷题/数学/)
+    - [排列组合](./洛谷刷题/数学/排列组合/)
       - [集合求和（P2415）](./洛谷刷题/数学/排列组合/集合求和/)
 
 > 说明：基础知识部分主要是基于 OI Wiki 的部分进行一些额外的补充，更多内容请参考 OI Wiki。
