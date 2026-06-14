@@ -98,6 +98,7 @@ Continuously updating…
     - [Number Reversal · Upgraded Version (P1553)](./洛谷刷题/字符串/数字反转·升级版/) 
   - [Sorting](./洛谷刷题/排序/) 
     - [Contribution Sorting (P1786)](./洛谷刷题/排序/帮贡排序/) 
+    - [Sorting(P1177)](./洛谷刷题/排序/排序/)
   - [Greedy](./洛谷刷题/贪心/) 
     - [Maximum Product (P1249)](./洛谷刷题/贪心/最大乘积/) 
   - [Mathematics](./洛谷刷题/数学/) 

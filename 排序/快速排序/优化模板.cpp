@@ -65,9 +65,11 @@ void quick_sort_impl(RandomIt first, RandomIt last) {
       ++lt;
       ++i;
     } else if (*i > pivot) {
+      //因为gt指向的是>pivot的左边界，先往左扩一格，腾出位置给这个大元素
       --gt;
       std::swap(*i, *gt);
       // 这里 i 不自增，因为从 gt 换过来的元素还没检查过
+      //这个新元素可能大于，小于或等于 pivot，所以 i 不自增
     } else {
       ++i;
       // 等于 pivot，直接跳过
@@ -75,7 +77,9 @@ void quick_sort_impl(RandomIt first, RandomIt last) {
   }
 
   // 递归处理小于 pivot 和大于 pivot 的部分
+  // 左边都是<pivot
   // 中间等于 pivot 的部分 [lt, gt) 已经就位，不需要再参与递归！
+  // 右边都是>pivot
   quick_sort_impl(first, lt);
   quick_sort_impl(gt, last);
 }
