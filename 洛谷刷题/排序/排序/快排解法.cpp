@@ -68,6 +68,13 @@ const int MAXN=1e5+10;
 int n;
 long long num[MAXN];
 
+/**
+ * @brief 插入排序
+ * @param arr 待排序数组
+ * @param l 左边界
+ * @param r 右边界
+ * @return void
+ */
 void insertionSort(long long arr[],int l,int r) {
     for(int i=l+1;i<=r;i++){
         long long key=arr[i];
@@ -80,6 +87,13 @@ void insertionSort(long long arr[],int l,int r) {
     }
 }
 
+/**
+ * @brief 三数取中
+ * @param arr 待排序数组
+ * @param l 左边界
+ * @param r 右边界
+ * @return long long 三数中的中位数
+ */
 long long medianOfThree(long long arr[],int l,int r){
     int mid=l+(r-l)/2;
 
@@ -90,6 +104,13 @@ long long medianOfThree(long long arr[],int l,int r){
     return arr[mid];
 }
 
+/**
+ * @brief 快速排序
+ * @param arr 待排序数组
+ * @param l 左边界
+ * @param r 右边界
+ * @return void
+ */
 void quickSort(long long arr[],int l,int r) {
     if(l>=r) return;
 
