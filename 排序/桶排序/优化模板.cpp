@@ -5,6 +5,19 @@
 
 using namespace std;
 
+/**
+ *  优化点说明：
+ *      1.动态桶数量：不再写死桶的数量，而是根据数据量 N 动态计算（通常取 sqrt(N)）。数据量越大，桶相对越多，每个桶内的数据量就越少，排序越快。
+ *      2.内存预分配（Reserve）：提前为每个桶预估容量并分配内存，避免在 push_back 过程中多次重新分配内存，大幅提升速度。
+ *      3.泛型支持：使用模板 template，不仅能排 int，还能排 double、float 等数值类型。
+ *      4.安全映射：统一转换为 double 进行比例计算，再映射回桶索引，并使用 std::min 强制防越界，保证逻辑绝对安全。
+ */
+
+/**
+ * @brief 桶排序函数
+ * @param arr 待排序的数组
+ * @return void
+ */
 template <typename T> void bucketSortOptimized(vector<T> &arr) {
   // 如果数组元素长度不超过2，直接返回
   if (arr.size() < 2)
