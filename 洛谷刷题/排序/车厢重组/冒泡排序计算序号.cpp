@@ -7,6 +7,10 @@ using namespace std;
 
 const int MAXN=1005;
 
+/**
+ *  由于题目仅要求求出逆序对的数量，因此可以不必实际写出排序算法。
+ *  本题解只是借用了冒泡排序的思想。
+ */
 int n,sum=0;
 int num[MAXN];
 int main(){
