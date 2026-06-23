@@ -1,6 +1,12 @@
 #include <iostream>
 using namespace std;
 
+/**
+ * @brief 插入排序
+ * @param arr 数组
+ * @param n 数组长度
+ * @return 无
+ */
 void insertionSort(int arr[],int n){
     for(int i=1;i<n;i++){
         int key=arr[i];

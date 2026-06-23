@@ -5,6 +5,15 @@
 #include <functional>
 using namespace std;
 
+/**
+ * @brief 插入排序
+ * @param first 指向第一个元素的迭代器
+ * @param last 指向最后一个元素的迭代器
+ * @param comp 比较函数对象，用于比较两个元素的大小\
+ * 默认为std::less<T>，即升序排序\
+ * 如果需要降序排序，可以使用std::greater<T>
+ * @return 无
+ */
 template<typename RandomAccessIterator,typename Compare>
 void insertionSort(RandomAccessIterator first,RandomAccessIterator last,Compare comp){
     //空容器直接返回
@@ -12,19 +21,25 @@ void insertionSort(RandomAccessIterator first,RandomAccessIterator last,Compare 
 
     for(RandomAccessIterator it=first+1;it!=last;it++){
         //auto会自动推导出迭代器指向的值的类型
-        auto key=move(*it);
+        auto key=std::move(*it);
         RandomAccessIterator j=it-1;
 
         //将大于key的元素往后移
         while(j>=first&&comp(key,*j)){
-            *(j+1)=move(*j);
+            *(j+1)=std::move(*j);
             j--;
         }
 
-        *(j+1)=move(key);
+        *(j+1)=std::move(key);
     }
 }
 
+/**
+ * @brief 插入排序
+ * @param first 指向第一个元素的迭代器
+ * @param last 指向最后一个元素的迭代器
+ * @return 无
+ */
 template<typename RandomAccessIterator>
 void insertionSort(RandomAccessIterator first,RandomAccessIterator last){
     //使用默认的比较函数less<T>
