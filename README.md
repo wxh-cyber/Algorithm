@@ -71,6 +71,7 @@
   - [nth_element函数](./排序/nth_element函数.md)
   - [unique函数](./排序/unique函数.md)
   - [move函数](./排序/move函数.md)
+  - [next_permutation函数](./排序/next_permutation函数.md)
 - [动态规划](./动态规划/)
   - [01 背包（二维）](./动态规划/01背包模板（二维）.cpp)
   - [01 背包（一维）](./动态规划/01背包模板（一维）.cpp)
