@@ -1,6 +1,10 @@
 /**
- *  @link https://www.luogu.com.cn/problem/P1008
+ *  @link https://www.luogu.com.cn/problem/P1618
  */
+
+ /**
+  *  说明：P1008的排列组合解法同样适用于本题。
+  */
 
 #include <iostream>
 #include <algorithm>
@@ -9,7 +13,9 @@ typedef long long ll;
 
 const ll MAXN=9;
 
-ll num[9];                                               //num用于存储1-9这九个数字
+int k1,k2,k3;
+int ans;
+ll num[9];
 
 /**
  *  @brief get_num
@@ -29,20 +35,30 @@ ll get_num(ll left,ll right){
 }
 
 int main(){
+    cin>>k1>>k2>>k3;                                   //输入三个比例
+    
+    //初始化数组
     for(int i=0;i<9;i++){
         num[i]=i+1;
     }
 
-    do{
+    do {
+        //构造出三个数
         ll a=get_num(0,2);
         ll b=get_num(3,5);
         ll c=get_num(6,8);
 
-        if (a*2==b&&a*3==c) {                                    //判断是否满足条件
+        //根据比例关系进行判断
+        if(a*k2==b*k1&&a*k3==c*k1){
             cout<<a<<" "<<b<<" "<<c<<endl;
+            ans++;
         }
-    }while(next_permutation(num,num+9));             //使用next_permutation函数进行全排列
-    //具体说明可参照模板部分的内容
+    }while(next_permutation(num,num+9));
 
+    //判断无解情况
+    if(!ans) {
+        cout<<"No!!!";
+    }
+    
     return 0;
 }
