@@ -73,6 +73,8 @@
     - [优化模板](./排序/桶排序/优化模板.cpp)
     - [算法分析](./排序/桶排序/算法分析.md)
   - [sort的底层实现](./排序/sort的底层实现.md)
+  - [iter_swap函数](./排序/iter_swap函数.md)
+  - [distance函数](./排序/distance函数.md)
   - [nth_element函数](./排序/nth_element函数.md)
   - [unique函数](./排序/unique函数.md)
   - [move函数](./排序/move函数.md)
