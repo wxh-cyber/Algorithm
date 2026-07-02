@@ -21,7 +21,7 @@
         return;
      }   
 
-     for(int i=num[k-1]+1;i<=n;i++){
+     for(int i=num[k-1]+1;i<=n-(r-k);i++){
         num[k]=i;
         dfs(k+1);                            //直接进行下一次调用
      }
