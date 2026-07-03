@@ -2,6 +2,15 @@
 #include <vector>
 using namespace std;
 
+/**
+ *  @brief 深度搜索的基本框架
+ *  @param nums 输入的数组
+ *  @param used 标记数组，记录元素是否已经被使用
+ *  @param path 记录当前路径
+ *  @param res 记录所有路径
+ *  @return void
+ *  @note 时间复杂度 O(n!)，空间复杂度 O(n)
+ */
 template <typename T>
 void dfs_basic(vector<T> &nums, vector<int> &used, vector<T> &path,
                vector<vector<T>> &res) {
@@ -23,6 +32,12 @@ void dfs_basic(vector<T> &nums, vector<int> &used, vector<T> &path,
   }
 }
 
+/**
+ *  @brief 打印二维数组
+ *  @param res 二维数组
+ *  @return void
+ *  @note 时间复杂度 O(n^2)，空间复杂度 O(1)
+ */
 template <typename T> void print(vector<vector<T>> res) {
   for (const auto &v : res) {
     for (const auto &x : v) {
