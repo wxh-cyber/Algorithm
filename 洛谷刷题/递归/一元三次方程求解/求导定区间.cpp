@@ -31,6 +31,13 @@ double f2(double x){
     return y;
 }
 
+/**
+ *  @brief 二分法求函数f(x)的根
+ *  @param x1 左端点
+ *  @param x2 右端点
+ *  @return 函数f(x)的根
+ *  @note 由于类型为浮点数，因此通过1e-7作为临界值来判断取端点的情况
+ */
 double divide(double x1,double x2){
     //由于类型为浮点数，因此通过1e-7作为临界值来判断取端点的情况
     if(fabs(f1(x1))<1e-7) return x1;
