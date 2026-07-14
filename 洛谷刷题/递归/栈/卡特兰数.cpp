@@ -27,7 +27,12 @@
  }
  */
 
-
+/**
+ *  @brief 计算卡特兰数
+ *  @param n 卡特兰数的n
+ *  @return 卡特兰数的值
+ *  @note 卡特兰数的递推公式为：C(2n,n)/(n+1)
+ */
  ll ktl(int n){
     ll ans=1;
 
