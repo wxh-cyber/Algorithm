@@ -16,7 +16,7 @@
  int main(){
     cin>>m>>n;
 
-    if(m==n) ans--;
+    if(m==n) ans--;                            //如果最大公因数和最小公倍数相同，则说明存在x==y的情况，此时需要减去重复情况
 
     n*=m;                                      //将两数的积存入n中
     for(long long i=1;i<=sqrt(n);i++){
