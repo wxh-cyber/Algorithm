@@ -4,6 +4,12 @@
 
 using namespace std;
 
+/**
+ *  @brief TreeNode - 树的节点
+ *  @param {int} val - 树的根节点的值
+ *  @param {TreeNode} left - 树的左子树节点
+ *  @param {TreeNode} right - 树的右子树节点
+ */
 struct TreeNode {
   int val;
   TreeNode *left;
