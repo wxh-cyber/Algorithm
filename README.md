@@ -37,6 +37,7 @@
 - [STL](./基础知识/STL/)
     - [set和multiset](./基础知识/STL/set和multiset.md.md)
     - [list](./基础知识/STL/list.md)
+    - [deque和queue](./基础知识/STL/deque和queue.md)
 
 ### 二、算法模板
 
