@@ -231,3 +231,170 @@ int main(){
 - 由于BFS按层遍历，任何距离小于`d`的节点都已经被处理过
 - 如果存在更短的路径，`v`应该在更早的层就被发现，与"首次访问"矛盾
 - 因此`distance[v] = d+1`确实是`v`的最短距离
+
+<br />
+
+### 3.BFS统计连通分量
+
+另一个常见的 BFS 应用是**统计连通分量**。例如，在无向图中找出有多少个连通子图，或者在网格中找出有多少个独立的“岛屿”。下面的代码展示了使用 BFS 统计网格中岛屿数量的模板。该模板也可用于社交网络中找朋友圈数量等场景。
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
+
+//定义方向数组，用于上下左右移动
+const int dx[]={-1,1,0,0};
+const int dy[]={0,0,-1,1};
+
+/**
+ *  @brief bfs - 广度优先遍历
+ *  @param {vector<vector<char>>} grid - 遍历的图
+ *  @param {int} x - 出发点横坐标
+ *  @param {int} y - 出发点纵坐标
+ *  @return 无
+ */
+void bfs(vector<vector<char>>& grid,int x,int y){
+    int rows=grid.size();                                     //行数
+    int cols=grid[0].size();                                  //列数
+
+    queue<pair<int,int>> q;                                   //采用队列q进行处理
+    q.push({x,y});                                            //出发点坐标入队
+    grid[x][y]='0';                                           //标记为已访问
+
+    while(!q.empty()){
+        auto [curX,curY]=q.front();                           //获取到队首的横纵坐标
+        q.pop();                                              //队首元素出队
+
+        //遍历四个方向
+        for(int i=0;i<4;i++){
+            int nx=curX+dx[i];
+            int ny=curY+dy[i];
+
+            //如果遍历到的点位于图内，且该节点为1
+            if(nx>=0&&nx<rows&&ny>=0&&ny<cols&&grid[nx][ny]=='1'){
+                grid[nx][ny]='0';                              //标记为0
+                q.push({nx,ny});                               //入队
+            }
+        }
+    }
+}
+
+/**
+ *  @brief numIslands - 岛屿数量计算函数
+ *  @param {vector<vector<char>>} - 遍历的图
+ *  @return {int} count - 岛屿数量
+ */
+int numIslands(vector<vector<char>>& grid){
+    //如果图为空，直接返回0
+    if(grid.empty()) return 0;
+
+    int rows=grid.size();                                      //行数
+    int cols=grid[0].size();                                   //列数
+    int count=0;                                               //岛屿数量
+
+    for(int i=0;i<rows;i++){
+        for(int j=0;j<cols;j++){
+            if(grid[i][j]=='1'){
+                //发现一座岛屿，使用bfs标记整座岛屿
+                bfs(grid,i,j);
+                count++;                                       //更新岛屿数量
+            }
+        }
+    }
+
+    return count;                                              //返回最终结果
+}
+
+int main(){
+    vector<vector<char>> grid={
+        {'1', '1', '0', '0', '0'},
+        {'1', '1', '0', '0', '0'},
+        {'0', '0', '1', '0', '0'},
+        {'0', '0', '0', '1', '1'}
+    };
+
+    cout<<"岛屿数量："<<numIslands(grid)<<endl;
+
+    return 0;
+}
+```
+
+<br />
+
+**输出示例**：
+```txt
+岛屿数量: 3
+```
+
+<hr />
+
+## Deque 模板与示例：双端队列的高级应用
+
+### 1.`std::deque`的基本操作
+
+`std::deque` 提供了比 `std::queue` 更丰富的接口，包括 `push_back`、`push_front`、`pop_back`、`pop_front`，以及 `front`、`back` 等。此外，`std::deque` 支持随机访问，可以通过 `dq[i]` 或迭代器访问元素。下面的代码演示了 `std::deque` 的基本用法。
+```cpp
+#include <iostream>
+#include <deque>
+using namespace std;
+
+int main(){
+    deque<int> dq;
+
+    // 在双端队列的两端插入元素
+    dq.push_back(10);     // 在队尾插入10
+    dq.push_front(20);    // 在队头插入20
+    dq.push_back(30);     // 在队尾插入30
+    dq.push_front(5);     // 在队头插入5
+
+    // 遍历双端队列
+    cout << "双端队列元素: ";
+    for (int val : dq) {
+        cout << val << " ";
+    }
+    cout << endl;
+
+    // 获取队头和队尾元素
+    cout << "队头元素: " << dq.front() << endl;  // 输出 5
+    cout << "队尾元素: " << dq.back() << endl;    // 输出 30
+
+    // 从两端删除元素
+    dq.pop_front();  // 删除队头元素5
+    dq.pop_back();   // 删除队尾元素30
+
+    cout << "删除两端元素后: ";
+    for (int val : dq) {
+        cout << val << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+```
+
+**输出**：
+```txt
+双端队列元素: 5 20 10 30 
+队头元素: 5
+队尾元素: 30
+删除两端元素后: 20 10 
+```
+
+<br />
+
+### 2.滑动窗口最大值（单调队列）
+
+**单调队列**是双端队列在算法竞赛中的一个高级应用，用于在 O(n) 时间内解决**滑动窗口最值**问题。给定一个数组和一个窗口大小 k，要求输出每个窗口内的最大值或最小值。暴力做法对于每个窗口重新计算极值，时间复杂度为 O(n × k)。而使用单调队列可以在线性时间内完成：维护一个存储**候选元素下标**的 `deque`，保证队列内对应的元素值保持单调有序（求最大值时单调递减，求最小值时单调递增）。在遍历数组过程中，每当窗口滑动时，执行以下步骤：
+
+1. 从队头移除已经滑出窗口范围的元素下标（即队列头部的下标小于当前窗口起始位置）。
+2. 从队尾移除所有值**小于等于**当前新元素的元素下标（因为这些旧元素永远不可能成为后续窗口的最大值，可以被新元素替代）。
+3. 将当前元素下标插入队尾。
+4. 此时，队头下标所对应的元素即为当前窗口的极值（最大值或最小值），记录结果。
+
+通过上述操作，单调队列保证了队列始终包含**可能成为窗口最值的候选**，并且队头始终是当前窗口的最值。由于每个元素最多被插入和删除一次，整个过程的时间复杂度为 O(n)。这种技术在解决**滑动窗口最大值**（LeetCode 239）等经典问题时非常高效。
+
+下面的代码实现了滑动窗口最大值的求解，并输出每个窗口的最大值。
+```cpp
+
+```
