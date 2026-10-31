@@ -16,6 +16,10 @@
 ![Claude](https://img.shields.io/badge/Claude-f0eee6?style=for-the-badge&logo=Claude&logoColor=d97757)
 ![](./assets/image.png)
 
+## 本人账户
+
+![洛谷](https://www.luogu.com.cn/user/933148)
+
 ## 目录
 
 ### 一、基础知识
