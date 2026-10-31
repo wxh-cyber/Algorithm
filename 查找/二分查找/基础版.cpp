@@ -7,6 +7,7 @@ using namespace std;
  *  @param {vector<int>} nums - 查找数组
  *  @param {int} target - 查找元素
  *  @return {int} mid - 查找元素对应下标
+ *  @note 本模板在一个单调不减数列中查找元素时，如果有多个相同元素均位于初始状态下的中间位置，则不会查找到最左侧的元素。
  */
 int binarySearch(vector<int> &nums, int target) {
   int left = 0, right = nums.size() - 1; // 闭区间 [left, right]
