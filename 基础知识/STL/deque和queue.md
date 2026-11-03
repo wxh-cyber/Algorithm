@@ -396,5 +396,159 @@ int main(){
 
 下面的代码实现了滑动窗口最大值的求解，并输出每个窗口的最大值。
 ```cpp
+#include <iostream>
+#include <vector>
+#include <deque>
+using namespace std;
 
+/**
+ *  @brief maxSlidingWindow - 滑动窗口最大值函数
+ *  @param {vector<int>} nums - 全体遍历的数组
+ *  @param {int} k - 滑动窗口最大值范围
+ *  @return {vector<int>} - result - 滑动窗口全程最大值
+ *  @note
+ *    时间复杂度 O(n)：每个元素最多入队一次、出队一次，虽然内层有 while 循环，但总的弹出次数不超过 n，属于"均摊分析"。
+ *    空间复杂度 O(k)：队列中最多同时存在 k 个下标。
+ */
+vector<int> maxSlidingWindow(vector<int>& nums,int k){
+    vector<int> result;                                             //result用于存储滑动窗口全程最大值
+    deque<int> dq;                                                  //dq存储的是下标，且这些下标对应的具体数值在dq中单调递减
+    //队首是当前窗口最大值的下标
+
+    for(int i=0;i<nums.size();i++){
+
+        // ---------- 第 1 步：清理队首 ----------
+        // 如果队首下标已经滑出窗口左边界（窗口是 [i-k+1, i]），
+        // 说明它已经不在窗口内，必须移除，否则它可能是过期的"旧最大值"
+        // 判断条件：dq.front() <= i - k 等价于 dq.front() < i - k + 1
+        if(!dq.empty()&&dq.front()<=i-k){
+            dq.pop_front();
+        }
+
+        // ---------- 第 2 步：清理队尾（维持单调性） ----------
+        // 只要队尾对应的值 <= 当前元素 nums[i]，就把它弹掉。
+        // 原因：这些元素比 nums[i] 小（或相等），而且会比 nums[i] 先滑出窗口。
+        //       所以在 nums[i] 还在窗口里的这段时间，它们绝不可能成为最大值，
+        //       留着只会浪费空间，直接淘汰。
+        // 注意循环弹出，可能一次淘汰多个
+        while(!dq.empty()&&nums[dq.back()]<nums[i]){
+            dq.pop_back();
+        }
+
+         
+        // ---------- 第 3 步：当前元素入队 ----------
+        // 经过上一步清理后入队，保证队列仍然单调递减
+        dq.push_back(i);                                            
+
+        // ---------- 第 4 步：收集结果 ----------
+        // 只有当窗口完整形成后（即 i >= k-1 时），才开始记录答案
+        if(i>=k-1){
+            result.push_back(nums[dq.front()]);                     //队首就是窗口最大值
+        }
+    }
+
+    return result;                                                  //返回最终结果
+}
+
+int main(){
+    vector<int> nums={1,3,-1,-3,5,3,6,7};
+    int k=3;
+
+    vector<int> ans=maxSlidingWindow(nums,k);
+    for(int x:ans){
+        cout<<x<<" ";
+        // 输出: 3 3 5 5 6 7
+    }
+
+    return 0;
+}
 ```
+
+<br />
+
+### 3.0-1 BFS最短路径
+
+在边权只有 0 或 1 的特殊图中，可以使用 BFS 的变种——0-1 BFS 来寻找最短路径。该算法利用双端队列来模拟 BFS 过程：当边权为 0 时，将邻居节点插入队头；当边权为 1 时，将邻居节点插入队尾。这样，队列始终保持按距离顺序排列，每次从队头取出节点进行扩展，相当于在 $O(V+E)$ 时间内找到最短路径。这种技巧在解决如**0-1 图最短路径**等问题时非常有用，比 Dijkstra 算法更高效。
+
+下面的代码展示了使用 0-1 BFS 求解边**权为 0 或 1 的图最短路径**的模板。该模板也可用于类似场景，如带权图的变种最短路径问题等。
+```cpp
+#include <iostream>
+#include <vector>
+#include <deque>
+#include <climits>
+using namespace std;
+
+/**
+ *  @brief zeroOneBFS - 0-1 BFS算法
+ *  @param {vector<vector<pair<int,int>>>} adj - 邻接表
+ *  @param {int} src - 出发点序号
+ *  @param {int} n - 节点总数
+ *  @return {vector<int>} result - 从源点出发到所有点的最短距离结果
+ */
+vector<int> zeroOneBFS(vector<vector<pair<int,int>>>& adj,int src,int n){
+    vector<int> dist(n,INT_MAX);                                  //n个节点的距离数组，初始化所有节点的最短距离均为最大值
+    deque<int> dq;                                                
+
+    dist[src]=0;                                                  //定义源点到自身距离为0
+    dq.push_back(src);                                            //将源点入队尾
+
+    while(!dq.empty()){
+        int u=dq.front();                                         //取出队头的元素，定义为u
+        dq.pop_front();                                           //队头元素出队
+
+        for(auto& edge:adj[u]){                                   //遍历u的邻接表
+            int v=edge.first;                                     //每一项都对应一个相邻节点v和权值weight
+            int weight=edge.second;
+
+            if(dist[u]+weight<dist[v]){                           //如果通过u到达v的距离更短，则更新
+                dist[v]=dist[u]+weight;
+
+                if(weight==0){
+                    dq.push_front(v);                             //如果边权为0，将v插入队头
+                }else{
+                    dq.push_back(v);                              //如果边权为1，将v插入队尾
+                }
+            }
+        }
+    }
+
+    return dist;                                                  //返回最终结果
+}
+
+int main(){
+    int n=9,src=0;
+    // 边列表，每个元素为 {u, v, weight}
+    vector<vector<int>> edges={
+        {0,1,0},{0,7,1},{1,2,1},{1, 7, 1},
+        {2, 3, 0}, {2, 5, 0}, {2, 8, 1}, {3, 4, 1}, {3, 5, 1},
+        {4, 5, 1}, {5, 6, 1}, {6, 7, 1}, {7, 8, 1}
+    };
+    
+    //构建邻接表
+    vector<vector<pair<int,int>>> adj(n);
+    for (auto &edge : edges) {
+        int u = edge[0], v = edge[1], w = edge[2];
+        adj[u].push_back({v, w});
+        adj[v].push_back({u, w});  // 无向图，双向添加
+    }
+
+    vector<int> dist=zeroOneBFS(adj,src,n);
+    cout << "从节点 " << src << " 出发的最短路径距离: ";
+    for (int i = 0; i < n; ++i) {
+        cout << dist[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+```
+
+<hr />
+
+## Queue与Deque的选择指南
+
+**Queue（队列）**和**Deque（双端队列）**在算法竞赛中各有所长。选择合适的数据结构是解决问题的关键一步：
+- **当需要 FIFO 顺序处理且无需访问中间元素时，使用 `std::queue`**。例如，在 BFS 遍历、任务调度等场景下，`std::queue` 提供了简洁的接口和语义保证。
+- **当需要两端操作或随机访问能力时，使用 `std::deque`**。例如，在实现双端队列模拟、单调队列（滑动窗口最值）等场景下，`std::deque` 的两端高效插入/删除和随机访问能力是必需的。
+
+此外，C++ 标准库中的 `std::queue` 默认使用 `std::deque` 作为底层容器。这意味着即使在使用 `std::queue` 时，我们也可以通过成员函数 `front()` 和 `back()` 间接访问队头和队尾元素，但不支持迭代器遍历。如果需要更灵活的功能，可以直接使用 `std::deque` 模拟队列行为，以获得对容器的完全控制。
