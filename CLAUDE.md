@@ -1,56 +1,44 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+本文档说明 Claude Code 及其他编码代理在本仓库中的工作约定。
 
-## About This Repository
+## 项目概况
 
-A personal C++ algorithm template and competitive programming practice repository. Each `.cpp` file is self-contained with its own `main()` — there is no build system or shared project file.
+这是一个个人 C/C++ 算法模板和竞赛刷题仓库。大多数 `.cpp` 或 `.c` 文件均可独立编译，并有自己的 `main()`；仓库没有统一构建系统或共享运行时。中文目录和文件名是仓库现有约定，新增内容应保持一致。
 
-## Compiling Individual Files
+主要内容包括排序、递归、动态规划、数学、前缀和、查找、线性结构、树、图、输入输出模板及洛谷题解。英文索引见 [`README_EN.md`](./README_EN.md)，更完整的中文索引见 [`README.md`](./README.md)。
 
-Each file compiles independently. Use g++ on the command line:
+## 修改约定
 
-```bash
-g++ -O2 -o output "path/to/file.cpp"
+- 尽量保持改动小而聚焦，不重构无关代码。
+- 修改前先搜索确认路径、API、构建配置或题目接口确实存在。
+- 编辑前完整阅读目标文件，并保留用户已有的无关修改。
+- 除非用户明确要求抽取公共抽象，否则题解应保持自包含。
+- 新增题解时，若可获得题目链接或简短题意，应保留在文件开头。
+- 不添加凭据、遥测、网络调用或生成的构建产物。
+
+## 代码风格
+
+- 超大输入使用 `scanf/printf` 或快读；中等规模输入使用 `cin/cout` 时配合 `ios::sync_with_stdio(false); cin.tie(nullptr);`。
+- 仓库常见 1 下标数组；明确边界、循环条件以及可能溢出的数据类型。
+- 注释可使用中文或英文，只说明不明显的意图或边界处理。
+- 算法工具代码保持简单，并遵循相邻文件的风格。
+
+## 编译与测试
+
+在仓库根目录单独编译目标文件：
+
+```powershell
+g++ -std=c++17 -O2 -Wall -Wextra -o .\tmp_solution.exe "路径\文件.cpp"
+& .\tmp_solution.exe
 ```
 
-Or open the file in Visual Studio (`.vs/` workspace files are present).
+C 文件使用 `gcc -std=c11 -O2 -Wall -Wextra`。有样例时运行并核对结果，验证后移除临时可执行文件。
 
-## Repository Structure
+## 安全
 
-```
-动态规划/          # DP templates (01背包 one/two-dim, 完全背包, 多重背包)
-数学/
-  模拟与高精度/    # High-precision arithmetic (string-based big integers)
-  数论/筛法/       # Number theory sieves (埃氏筛法, etc.)
-输入输出/          # I/O optimization templates + performance notes (README.md)
-洛谷刷题/          # Luogu OJ solutions, organized by topic (递归, 模拟, ...)
-```
+未经明确授权，不运行破坏性的 Git 或文件系统操作。不得泄露或保存秘密信息。命令要求凭据或长时间无响应时，停止并报告，不要盲目重试。
 
-## Code Conventions
+## 回复格式
 
-- All comments and variable names may be in Chinese.
-- Every file begins with a block comment containing the problem link (洛谷, LeetCode, etc.) and a brief explanation of the solution approach.
-- Templates use `scanf/printf` for performance-sensitive code; `cin/cout` with `ios::sync_with_stdio(false); cin.tie(0);` for moderate data sizes. See `输入输出/README.md` for the full I/O performance tier breakdown.
-- More complex utility code (e.g., FFT-based polynomial class) uses a named namespace (e.g., `namespace mikiwang`).
-- Arrays are typically 1-indexed (`for (int i = 1; i <= n; i++)`).
-
-## I/O Performance Tiers (summary from 输入输出/README.md)
-
-| Tier | Method | Use When |
-|------|--------|----------|
-| Slowest | `cin/cout` (default) | N < 10^4 |
-| Medium | `cin/cout` + sync disabled | N ≈ 10^5–10^6 |
-| Fast | `scanf/printf` | formatted input, large N |
-| Faster | `getchar/putchar` fast-read | N ≈ 10^6–10^7 |
-| Fastest | `fread/fwrite` | N > 10^7, extreme time limits |
-
-Templates for the two fast-read approaches are in `输入输出/`.
-
-## External References
-
-- [洛谷](https://www.luogu.com.cn)
-- [CodeForces](https://codeforces.com)
-- [LeetCode](https://leetcode.cn)
-- [牛客](https://ac.nowcoder.com)
-- [OI Wiki](https://oi-wiki.org/)
+修改代码时，说明结果、修改文件及验证命令/结果。调试时说明假设、检查过程和最小修复。
