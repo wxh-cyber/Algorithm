@@ -1,3 +1,4 @@
+// 适合：卡常数、网络流；无向图务必把 MAXM 开成两倍！
 #include <cstring>
 #include <iostream>
 #include <vector>
