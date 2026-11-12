@@ -1,0 +1,42 @@
+# C/C++ 编译产物
+*.exe
+*.out
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+*.o
+*.obj
+*.gch
+*.pch
+*.pdb
+*.ilk
+*.idb
+*.ipch
+*.d
+
+# 常见构建目录
+build/
+cmake-build-*/
+Debug/
+Release/
+x64/
+x86/
+
+# Visual Studio / CMake 生成文件
+.vs/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+*.sln.docstates
+
+# 临时文件和日志
+*.tmp
+*.temp
+*.log
+*.bak
+*.swp
+*.swo
+

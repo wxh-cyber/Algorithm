@@ -91,8 +91,8 @@ int main(){
         addEdge(u,v,w);                          //不断更新邻接矩阵
     }
 
-    print();
-    bfs(1);
+    print();                                     //输出邻接矩阵
+    bfs(1);                                   //bfs
 
     return 0;
 }
