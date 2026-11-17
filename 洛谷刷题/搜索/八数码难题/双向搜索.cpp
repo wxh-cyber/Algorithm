@@ -52,6 +52,8 @@
 
  queue<State> q1,q2;
  map<State,int> mp1,mp2;
+
+ //方向数组，遍历上下左右四个方向
  int dx[4]={-1,1,0,0};
  int dy[4]={0,0,-1,1};
 
