@@ -23,6 +23,11 @@
     int A[3][3];
     State()=default;
 
+    /**
+     *  @brief State - 构造函数
+     *  @param {string} s - 初始化字符串
+     *  @return 无
+     */
     State(string s){
         for(int i=0;i<3;i++){
             for(int j=0;j<3;j++){
@@ -50,17 +55,25 @@
     }
  };
 
- queue<State> q1,q2;
- map<State,int> mp1,mp2;
+ queue<State> q1,q2;                                             //q1和q2分别处理双向遍历的BFS
+ map<State,int> mp1,mp2;                                         //mp1[u]记录从正向遍历到u时经过的步数
 
  //方向数组，遍历上下左右四个方向
  int dx[4]={-1,1,0,0};
  int dy[4]={0,0,-1,1};
 
+ /**
+  *  @brief bfs - 双端bfs
+  *  @param {queue<State>} q - 单向处理队列
+  *  @param {map<State,int>} m1 - 正向映射
+  *  @param {map<State,int>} m2 - 反向映射
+  *  @return 无
+  */
  void bfs(queue<State> &q,map<State,int> &m1,map<State,int> &m2){
-    auto u=q.front();
-    q.pop();
+    auto u=q.front();                                 //获取到队首元素u
+    q.pop();                                                 //队首元素出队
 
+    //搜寻0的下标，并记录为(xx,yy)
     for(int i=0;i<3;i++){
         for(int j=0;j<3;j++){
             if(u.A[i][j]==0){
@@ -71,42 +84,43 @@
     }
 
     for(int i=0;i<4;i++){
-        int nx=xx+dx[i];
+        int nx=xx+dx[i];                           //依次搜寻四个方向
         int ny=yy+dy[i];
-        if(nx>=0&&nx<3&&ny>=0&&ny<3){
-            auto v=u;
-            swap(v.A[xx][yy],v.A[nx][ny]);
+        if(nx>=0&&nx<3&&ny>=0&&ny<3){              //如果搜寻的对象没有越界
+            auto v=u;                       //复制一份当前的对象u，存入v
+            swap(v.A[xx][yy],v.A[nx][ny]);               //交换这个搜寻点与0的位置
             
-            if(m2.count(v)){
-                cout<<m1[u]+m2[v]<<endl;
-                exit(0);
+            if(m2.count(v)){               //如果反向映射中存在v，说明此时两者已经相遇
+                cout<<m1[u]+m2[v]<<endl;          //返回最终的结果，即从正向出发u的步数和反向出发v的步数之和
+                exit(0);                     //退出程序
             }
 
-            if(!m1.count(v)){
-                m1[v]=m1[u]+1;
-                q.push(v);
+            if(!m1.count(v)){              //反之则是还没有相遇，记录下正向遍历到v的步数
+                m1[v]=m1[u]+1;                    //显然在u的步数上加1
+                q.push(v);                    //v入队
             }
         }
     }
  }
 
  int main(){
-    cin>>I;
-    State in,out;
-    in=I;
+    cin>>I;                                           //输入初始字符串
+    State in,out;                                     //in和out分别表示初始状态和结束状态
+    in=I;                                             //初始化开始和结束状态
     out=O;
 
-    mp1[in]=0;
-    q1.push(in);
-    mp2[out]=1;
-    q2.push(out);
+    mp1[in]=0;                                        //从正向遍历初始状态显然为0
+    q1.push(in);                                 //初始状态入队
+    mp2[out]=1;                                       //从反向遍历结束状态，这里为1是考虑到两者相遇时，桥接还需要1步
+    q2.push(out);                                //结束状态入队
 
-    if(I==O){
+    if(I==O){                                        //如果初始状态和结束状态相同，则无需操作，直接返回0
         cout<<0;
         return 0;
     }
 
     while(1){
+        //每次都正向遍历和反向遍历
         bfs(q1,mp1,mp2);
         bfs(q2,mp2,mp1);
     }
