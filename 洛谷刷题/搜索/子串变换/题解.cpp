@@ -6,7 +6,7 @@
  #include <string>
  using namespace std;
 
- const int MAXN=1e6+5;
+ const int MAXN=1e5+5;
  const int MAXM=20;
 
  int n=1;
@@ -26,14 +26,15 @@
     }
     n-=1;
 
+    if(a==b){
+        cout<<"NO ANSWER!"<<endl;
+        return 0;
+    }
+
     q[tail].cur=a;
     q[tail].count=0;
     while(head<tail){
         head++;
-        if(q[head].count>10){
-            cout<<"NO ANSWER!"<<endl;
-            return 0;
-        }
 
         for(int i=1;i<=n;i++){
             int pos=q[head].cur.find(before[i],0);

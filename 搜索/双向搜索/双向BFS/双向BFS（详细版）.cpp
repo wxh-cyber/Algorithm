@@ -1,5 +1,4 @@
 #include <iostream>
-#include <map>
 #include <vector>
 #include <utility>
 #include <unordered_map>
@@ -95,29 +94,44 @@ void testMaze(){
         {0,0,0,0,0}
     };
 
-    int R=grid.size(),C=grid[0].size();
+    int R=grid.size(),C=grid[0].size();                           //R和C分别表述行数和列数
+    //采用方向数组表示上下左右四个方向
     int dx[4]={-1,1,0,0};
     int dy[4]={0,0,-1,1};
 
+    /**
+     *  @brief encode - 二维转一维
+     *  @param {int} r - 行下标
+     *  @param {int} c - 列下标
+     *  @return {int} result - 转换后的一维结果
+     */
     auto encode=[C](int r,int c){
         return r*C+c;
     };
 
+    /**
+     *  @brief neighbors - 获取节点v的临接节点
+     *  @param {int} v - 节点v，形式为一维形式
+     *  @return {vector<int>} - v的邻接节点数组，形式均为一维形式
+     */
     auto neighbors=[&](int v){
-        int x=v/C,y=v%C;
+        int x=v/C,y=v%C;                                //从一维恢复到二维
+
         vector<int> res;
-        for(int i=0;i<4;i++){
+        for(int i=0;i<4;i++){                           //依次遍历上下左右四个方向
             int nx=x+dx[i];
             int ny=y+dy[i];
 
+            //如果遍历的点没有越界，且为空地，则加入数组
             if(nx>=0&&nx<R&&ny>=0&&ny<C&&grid[nx][ny]==0){
                 res.push_back(encode(nx,ny));
             }
         }
 
-        return res;
+        return res;                                     //返回最终结果
     };
 
+    //调用双向BFS获得最终结果
     int steps=bidirectionalBFS(encode(0,0),encode(R-1,C-1),neighbors);
     cout<<"最短步数= "<<steps<<endl;
 }
