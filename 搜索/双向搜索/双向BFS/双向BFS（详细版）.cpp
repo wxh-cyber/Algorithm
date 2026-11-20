@@ -2,6 +2,7 @@
 #include <vector>
 #include <utility>
 #include <unordered_map>
+#include <unordered_set>
 #include <queue>
 using namespace std;
 
@@ -11,6 +12,15 @@ using namespace std;
  *  @param {T} end - 结束节点
  *  @param {F} getNeighbors - 获取邻接节点
  *  @return {int} result - 从起点遍历到终点所需总步数
+ *  @note
+ *     约定：
+ *       - T 需可 std::hash（int / string 等；pair 建议编码成 int）
+ *       - getNeighbors(node) 返回 vector<T>（值类型），需可范围 for 遍历
+ *       - 边权全为 1；带权图请用双向 Dijkstra
+ *     返回：
+ *       - start == end   → 0
+ *       - 存在路径       → 最少边数
+ *       - 不可达         → -1
  */
 template<typename T,typename F>
 int bidirectionalBFS(T start,T end,F getNeighbors){
@@ -135,6 +145,54 @@ void testMaze(){
     int steps=bidirectionalBFS(encode(0,0),encode(R-1,C-1),neighbors);
     cout<<"最短步数= "<<steps<<endl;
 }
+
+// ---------- 测试 2：LeetCode 127 单词接龙 ----------
+// 每次只能改一个字符，求 beginWord -> endWord 经过的最少单词数
+/**
+ *  @link https://leetcode.cn/problems/word-ladder/description/
+ *  @brief ladderLength - 单词变换步数函数
+ *  @param {string} beginWord - 初始字符
+ *  @param {string} endWord - 结束字符
+ *  @param {vector<string>} wordList - 单词列表
+ *  @return {int} steps - 最终变换步数
+ */
+int ladderLength(const string& beginWord,const string& endWord,vector<string> wordList){
+    //将wordList中的所有单词都映射到set中，以去除重复的情况
+    unordered_set<string> wordSet(wordList.begin(),wordList.end());
+    //如果最终的单词都不在set中，则说明无论如何都不能满足要求，直接返回0
+    if(!wordSet.count(endWord)) return 0;
+
+    /**
+     *  @brief neighbors - 获取单词的所有变换形式
+     *  @param {string} word - 初始的单词
+     *  @return {vector<string>} res - 所有可能变换结果
+     */
+    auto neighbors=[&](const string& word){
+        vector<string> res;                                //res存放所有可能的变换结果
+        string cur=word;                                   //cur拷贝一份当前的word
+
+        for(size_t i=0;i<cur.size();i++){                  //依次遍历单词中的每一位
+            char old=cur[i];                               //记录原单词中的特定一位的字母为old
+            for(char c='a';c<='z';c++){                    //从a到z遍历所有字母
+                if(c==old) continue;                       //遍历到原先的字母，直接跳过
+                cur[i]=c;                                  //否则视为一种新的情况
+                //在set中查找这种情况，如果找到了，符合要求，加入res
+                if(wordSet.count(cur)) res.push_back(cur);
+            }
+
+            cur[i]=old;                                    //回溯
+        }
+
+        return res;                                        //返回最终遍历结果
+    };
+
+    //获取最终步数
+    int steps=bidirectionalBFS(beginWord,endWord,neighbors);
+    //输出结果
+    return steps==-1?0:steps;
+}
+
+
 
 int main(){
     testMaze();
