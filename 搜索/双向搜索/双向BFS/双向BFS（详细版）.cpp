@@ -192,10 +192,51 @@ int ladderLength(const string& beginWord,const string& endWord,vector<string> wo
     return steps==-1?0:steps;
 }
 
+/**
+ *  @brief testLadder - 测试用例
+ *  @return 无
+ */
+void testLadder(){
+    int r=ladderLength("hit","cog",{"hot","dot","dog","lot","log","cog"});
+    cout<<r<<endl;
+}
 
+// ---------- 测试 3：不可达场景 ----------
+// 起终点被墙完全隔开，应返回 -1
+void testUnreachable(){
+    vector<vector<int>> grid={
+        {0,1,0},
+        {0,1,0},
+        {0,1,0}
+    };
+
+    int R=grid.size(),C=grid[0].size();
+    int dx[4]={-1,1,0,0};
+    int dy[4]={0,0,-1,1};
+
+    auto neighbors=[&](int v){
+        int r=v/C,c=v%C;
+
+        vector<int> res;
+        for(int i=0;i<4;i++){
+            int nx=r+dx[i];
+            int ny=c+dy[i];
+
+            if(nx>=0&&nx<R&&ny>=0&&ny<C&&grid[nx][ny]==0){
+                res.push_back(nx*C+ny);
+            }
+        }
+
+        return res;
+    };
+
+    int steps=bidirectionalBFS(0, C-1, neighbors);
+    cout<<steps<<endl;
+}
 
 int main(){
     testMaze();
+    testLadder();
 
     return 0;
 }
